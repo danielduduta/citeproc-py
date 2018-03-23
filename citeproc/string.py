@@ -95,7 +95,7 @@ class MixedString(list):
 
     def capitalize_first(self):
         self_iter = iter(self)
-        output = [next(self_iter).capitalize_first()]
+        output = [String(next(self_iter)).capitalize_first()]
         output += [string for string in self_iter]
         return self.__class__(output)
 

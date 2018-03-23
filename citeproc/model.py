@@ -361,6 +361,8 @@ class TextCased(object):
     def case(self, text, language=None):
         text_case = self.get('text-case')
         if text_case is not None:
+            if isinstance(text, (str, basestring, unicode)):
+                text = String(text)
             if language != 'en' and text_case == 'title':
                 text_case = 'sentence'
             if text_case == 'lowercase':
@@ -908,11 +910,16 @@ class Date_Part(CitationStylesElement, Formatted, Affixed, TextCased,
 
         if name == 'day':
             form = self.get('form', 'numeric')
-            if (form == 'ordinal'
-                and self.get_locale_option('limit-day-ordinals-to-day-1')
-                    .lower() == 'true'
-                and date.day > 1):
-                form = 'numeric'
+            if form == 'ordinal' and date.day > 1:
+                try:
+                    limit_day = self.get_locale_option('limit-day-ordinals-to-day-1')
+                except TypeError:
+                    limit_day = context.get_locale_option('limit-day-ordinals-to-day-1')
+                except:
+                    limit_day = 'false'
+
+                if limit_day.lower() == 'true':
+                    form = 'numeric'
 
             if form == 'numeric':
                 text = date.day
