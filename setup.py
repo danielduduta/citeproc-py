@@ -92,7 +92,7 @@ setup(
                             'data/styles/*.csl',
                             'data/styles/dependent/*.csl']},
     scripts=['bin/csl_unsorted'],
-    setup_requires=['rnc2rng>=2.2'],
+    setup_requires=['rnc2rng==2.6'],
     install_requires=['lxml'],
     provides=[PACKAGE],
     #test_suite='nose.collector',
